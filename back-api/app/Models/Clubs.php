@@ -4,20 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Model
+class Clubs extends Model
 {
-    use HasApiTokens, HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'email'
+        'name'
     ];
 
     public function signatures()
     {
-        return $this->hasMany(Signatures::class, 'user_id');
+        return $this->hasMany(Signatures::class, 'club_id');
     }
 }
