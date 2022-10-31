@@ -58,6 +58,7 @@ class ClubController extends Controller
         $club = Clubs::find($id);
 
         if ($club) {
+            $club['users'] = $club->users;
             return response()->json([$club], 200);
         }
 

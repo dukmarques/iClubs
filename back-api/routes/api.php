@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClubController;
+use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,4 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/club/{id}', [ClubController::class, 'getClub']);
     Route::put('/club/{id}', [ClubController::class, 'update']);
     Route::delete('/club/{id}', [ClubController::class, 'delete']);
+
+    Route::post('/signatures/{userId}/{clubId}', [SignatureController::class, 'create']);
 });

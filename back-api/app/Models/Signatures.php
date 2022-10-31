@@ -10,9 +10,7 @@ class Signatures extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'user_id',
-        'club_id',
-        'status',
+    protected $hidden = [
+        'deleted_at',
     ];
 }

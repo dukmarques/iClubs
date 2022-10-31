@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SignatureController extends Controller
@@ -21,9 +22,12 @@ class SignatureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($userId, $clubId)
     {
-        //
+        $user = User::find($userId);
+        $user->clubs()->attach($clubId, ['status' => 'active']);
+
+        return response()->json([$user->clubs], 200);
     }
 
     /**

@@ -20,8 +20,8 @@ class User extends Model
         'deleted_at',
     ];
 
-    public function signatures()
+    public function clubs()
     {
-        return $this->hasMany(Signatures::class, 'user_id');
+        return $this->belongsToMany(Clubs::class, 'signatures', 'user_id', 'club_id');
     }
 }

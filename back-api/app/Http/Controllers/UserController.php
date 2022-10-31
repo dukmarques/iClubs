@@ -56,9 +56,9 @@ class UserController extends Controller
     public function getUser($id)
     {
         $user = User::find($id);
-        $user['signatures'] = $user->signatures();
 
         if ($user) {
+            $user['clubs'] = $user->clubs;
             return response()->json([$user], 200);
         } else {
             return response()->json(['error' => 'Usuário não encontrado'], 404);
