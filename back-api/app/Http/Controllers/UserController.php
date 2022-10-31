@@ -59,6 +59,7 @@ class UserController extends Controller
 
         if ($user) {
             $user['clubs'] = $user->clubs;
+            $user['clubs']['invoices'] = $user->invoices;
             return response()->json([$user], 200);
         } else {
             return response()->json(['error' => 'Usuário não encontrado'], 404);

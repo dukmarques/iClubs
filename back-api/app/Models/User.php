@@ -24,4 +24,9 @@ class User extends Model
     {
         return $this->belongsToMany(Clubs::class, 'signatures', 'user_id', 'club_id');
     }
+
+    public function invoices()
+    {
+        return $this->hasManyThrough(Invoice::class, Signatures::class, 'user_id', 'signature_id', 'id', 'id');
+    }
 }
