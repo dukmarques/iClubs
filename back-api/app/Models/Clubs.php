@@ -14,6 +14,10 @@ class Clubs extends Model
         'name'
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     public function signatures()
     {
         return $this->hasMany(Signatures::class, 'club_id');

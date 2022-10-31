@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the users.
      *
      * @return \Illuminate\Http\Response
      */
@@ -19,7 +19,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Creating a new user.
      *
      * @return \Illuminate\Http\Response
      */
@@ -48,7 +48,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified user.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -66,7 +66,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified user in database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -106,7 +106,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified user from database.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

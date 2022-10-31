@@ -2,65 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clubs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClubController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the clubs.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getAllClubs()
     {
-        //
+        return Clubs::all();
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Creating a new club.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required|min:3',
+            'description' => 'string|max:255'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 400);
+        }
+
+        $name = $request->input('name');
+        $description = $request->input('description');
+
+        $club = new Clubs();
+        $club->name = $name;
+        $club->description = $description;
+        $club->save();
+
+        return response()->json([$club], 201);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Display the specified clube.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function getClub($id)
     {
-        //
+        $club = Clubs::find($id);
+
+        if ($club) {
+            return response()->json([$club], 200);
+        }
+
+        return response()->json(['error' => 'Clube não encontrado'], 404);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified club in database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -68,17 +73,53 @@ class ClubController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'name' => 'min:3',
+            'description' => 'string|max:255'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 400);
+        }
+
+        $name = $request->input('name');
+        $description = $request->input('description');
+
+        $club = Clubs::find($id);
+
+        if ($club) {
+            if ($name) {
+                $club->name = $name;
+            }
+
+            if ($description) {
+                $club->description = $description;
+            }
+
+            $club->save();
+            return response()->json([$club], 200);
+        } else {
+            return response()->json(['error' => 'Clube não encontrado'], 404);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified club from database.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        $club = Clubs::find($id);
+
+        if ($club) {
+            $club->delete();
+            return response()->json([$club], 200);
+        }
+
+        return response()->json(['error' => 'Clube não encontrado'], 404);
     }
 }
