@@ -13,4 +13,9 @@ class Signatures extends Model
     protected $hidden = [
         'deleted_at',
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'signature_id');
+    }
 }

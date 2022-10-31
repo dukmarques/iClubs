@@ -2,21 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
+use App\Models\Signatures;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 
 class SignatureController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -27,29 +20,21 @@ class SignatureController extends Controller
         $user = User::find($userId);
         $user->clubs()->attach($clubId, ['status' => 'active']);
 
-        return response()->json([$user->clubs], 200);
-    }
+        $signature = Signatures::where('user_id', '=', $userId)->where('club_id', '=', $clubId)->first();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        // Create the invoices
+        $date = new DateTime();
+        for ($i = 0; $i < 12; $i++) {
+            $date->modify('+1 month'); // Increments one month from the current date
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+            $invoice = new Invoice();
+            $invoice->signature_id = $signature->id;
+            $invoice->payment_status = 'unpaid';
+            $invoice->due_date = $date;
+            $invoice->save();
+        }
+
+        return response()->json([$signature], 200);
     }
 
     /**

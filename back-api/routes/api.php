@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClubController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -31,4 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/club/{id}', [ClubController::class, 'delete']);
 
     Route::post('/signatures/{userId}/{clubId}', [SignatureController::class, 'create']);
+
+    Route::put('/invoice/{id}', [InvoiceController::class, 'editPayment']);
+    Route::get('/invoices/{signatureId}', [InvoiceController::class, 'getBySignature']);
 });
