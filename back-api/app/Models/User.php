@@ -16,6 +16,10 @@ class User extends Model
         'email'
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     public function signatures()
     {
         return $this->hasMany(Signatures::class, 'user_id');

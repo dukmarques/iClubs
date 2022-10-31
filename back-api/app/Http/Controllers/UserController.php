@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -11,9 +13,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getAllUsers()
     {
-        //
+        return User::all();
     }
 
     /**
@@ -21,20 +23,28 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
-    }
+        $rules = [
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:users,email'
+        ];
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 400);
+        }
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->save();
+
+        return response()->json([$user], 201);
     }
 
     /**
@@ -43,20 +53,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function getUser($id)
     {
-        //
-    }
+        $user = User::find($id);
+        $user['signatures'] = $user->signatures();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        if ($user) {
+            return response()->json([$user], 200);
+        } else {
+            return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
     }
 
     /**
@@ -68,7 +74,35 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'name' => 'min:3',
+            'email' => 'email|unique:users,email'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 400);
+        }
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+
+        $user = User::find($id);
+
+        if ($user) {
+            if ($name) {
+                $user->name = $name;
+            }
+
+            if ($email) {
+                $user->email = $email;
+            }
+            $user->save();
+            return response()->json([$user], 200);
+        } else {
+            return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
     }
 
     /**
@@ -77,8 +111,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        $user = User::find($id);
+
+        if ($user) {
+            $user->delete();
+            return response()->json([$user], 200);
+        } else {
+            return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
     }
 }
