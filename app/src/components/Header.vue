@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <h1>{{ title }}</h1>
-        <button @click="buttonMethod">{{ titleButton }}</button>
+        <button v-show="titleButton" @click="buttonMethod">{{ titleButton }}</button>
     </header>
 </template>
 

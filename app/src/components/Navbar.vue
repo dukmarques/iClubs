@@ -37,7 +37,7 @@ export default {
 
 <style scoped lang="scss">
 nav {
-    padding: 20px 50px;
+    padding: 20px 10px;
     background: var(--black);
     background: linear-gradient(90deg, var(--green-dark) 0%, var(--green) 100%);
     box-shadow: 0px 0px 0px 1px var(--black-50);

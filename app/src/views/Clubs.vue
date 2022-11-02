@@ -15,7 +15,7 @@
 
         <div class="content">
             <div class="item" v-for="club in clubs" :key="club.id">
-                <a href="#" class="card">
+                <a @click="goToClubDetails(club.id)" class="card">
                     <header>
                         <h2>{{ club.name }}</h2>
                         <img src="@/assets/shield.png" alt="Clube">
@@ -95,6 +95,9 @@ export default {
         closeModal() {
             this.showModal = false;
         },
+        goToClubDetails(id) {
+            this.$router.push({ name: 'clubDetails', params: { id } });
+        }
     },
 }
 </script>
