@@ -11,7 +11,7 @@
 
 ### Executando o Projeto
 #### Api
-* Clone este repositório `https://github.com/dukmarques/iClubs.git`
+* Clone este repositório `git clone https://github.com/dukmarques/iClubs.git`
 * Acesse a pasta `back-api`
 * Execute os comandos:
 ````
