@@ -13,12 +13,12 @@
 #### Api
 * Clone este repositório `git clone https://github.com/dukmarques/iClubs.git`
 * Acesse a pasta `back-api`
+* Crie um arquivo `.env`de acordo com o `.env.example` presente na pasta `back-api` e configure-o de acordo com seu banco de dados
 * Execute os comandos:
 ````
 composer install
 php artisan key:generate
 ````
-* Crie um arquivo `.env`de acordo com o `.env.example` presente na pasta `back-api` e configure-o de acordo com seu banco de dados
 * Execute `php artisan migrate` e por fim `php artisan serve` para executar a api do projeto.
 
 #### Front-end
