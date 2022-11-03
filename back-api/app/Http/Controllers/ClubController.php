@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Clubs;
+use App\Models\Signatures;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,6 +19,16 @@ class ClubController extends Controller
     public function getAllClubs()
     {
         return Clubs::all();
+    }
+
+    public function getClubsAvailableToSign($id)
+    {
+        $clubs = Clubs::whereNotIn(
+            'id',
+            Signatures::where('user_id', '=', $id)->select('club_id')->get()->toArray()
+        )->get();
+
+        return response()->json($clubs, 200);
     }
 
     /**
@@ -76,7 +89,7 @@ class ClubController extends Controller
     {
         $rules = [
             'name' => 'min:3',
-            'description' => 'string|max:255'
+            'description' => 'max:255'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -97,6 +110,8 @@ class ClubController extends Controller
 
             if ($description) {
                 $club->description = $description;
+            } else {
+                $club->description = '';
             }
 
             $club->save();

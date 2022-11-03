@@ -33,7 +33,7 @@ export default {
   width: 100%;
   max-width: 1120px;
   margin: 0 auto;
-  animation: fadeIn 2s;
+  animation: fadeIn 1s;
 
   .home {
     display: flex;

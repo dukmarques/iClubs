@@ -257,6 +257,7 @@ export default {
         },
         closeModalInvoices() {
             this.showModalInvoices = false;
+            this.getUserData();
         }
     }
 
@@ -268,7 +269,7 @@ export default {
     width: 100%;
     max-width: 1120px;
     margin: 0 auto;
-    animation: fadeIn 2s;
+    animation: fadeIn 1s;
 
     .updateUser {
         width: auto;

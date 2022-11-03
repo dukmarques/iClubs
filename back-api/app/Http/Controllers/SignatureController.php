@@ -18,7 +18,7 @@ class SignatureController extends Controller
     public function create($userId, $clubId)
     {
         $user = User::find($userId);
-        $user->clubs()->attach($clubId, ['status' => 'active']);
+        $user->clubs()->attach($clubId, ['status' => 'defaulter']);
 
         $signature = Signatures::where('user_id', '=', $userId)->where('club_id', '=', $clubId)->first();
 
@@ -34,7 +34,7 @@ class SignatureController extends Controller
             $invoice->save();
         }
 
-        return response()->json([$signature], 200);
+        return response()->json($signature, 200);
     }
 
     /**

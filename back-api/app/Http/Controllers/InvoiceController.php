@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\Signatures;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +13,7 @@ class InvoiceController extends Controller
     {
         $signatures = Invoice::where('signature_id', '=', $signatureId)->orderBy('due_date', 'ASC')->get();
 
-        return response()->json([$signatures], 200);
+        return response()->json($signatures, 200);
     }
 
     public function editPayment($id, Request $request)
@@ -33,40 +34,18 @@ class InvoiceController extends Controller
         $invoice->payment_status = $status;
         $invoice->save();
 
-        return response()->json([$invoice], 200);
-    }
+        // Checks if all invoices are paid
+        //$allInvoices = Invoice::where('signature_id', '=', $invoice->signature_id)->get();
+        $allInvoices = Invoice::where('signature_id', '=', $invoice->signature_id)
+            ->where('payment_status', '=', 'unpaid')
+            ->orderBy('due_date', 'ASC')->get()->count();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        if ($allInvoices == 0) {
+            $signature = Signatures::find($invoice->signature_id);
+            $signature->status = 'active';
+            $signature->save();
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json($invoice, 200);
     }
 }

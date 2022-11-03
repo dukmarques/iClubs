@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/club/{id}', [ClubController::class, 'getClub']);
     Route::put('/club/{id}', [ClubController::class, 'update']);
     Route::delete('/club/{id}', [ClubController::class, 'delete']);
+    Route::get('/club/available/{id}', [ClubController::class, 'getClubsAvailableToSign']);
 
     Route::post('/signatures/{userId}/{clubId}', [SignatureController::class, 'create']);
 

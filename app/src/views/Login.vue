@@ -115,10 +115,16 @@ export default {
 
             h1 {
                 font-size: 64px;
+                color: var(--green);
 
                 span {
                     font-size: 74px;
+                    color: var(--green-dark);
                 }
+            }
+
+            p {
+                color: var(--green);
             }
 
             input {

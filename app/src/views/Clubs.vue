@@ -77,7 +77,7 @@ export default {
             }
         },
         async createClub() {
-            await this.axios.post('/clubs', { name: this.clubName, desription: this.clubDescription })
+            await this.axios.post('/clubs', { name: this.clubName, description: this.clubDescription })
                 .then((response) => {
                     this.toast('Sucesso!', `Clube ${response.data[0].name} criado com sucesso!`);
                     this.getClubs();
@@ -109,7 +109,7 @@ export default {
     width: 100%;
     max-width: 1120px;
     margin: 0 auto;
-    animation: fadeIn 2s;
+    animation: fadeIn 1s;
 
     .registerClub {
         width: auto;
